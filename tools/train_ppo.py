@@ -2,14 +2,22 @@
 
 """Train a policy with PPO."""
 
+import os
+from pdb import set_trace
+
 import hydra
 import omegaconf
-import os
 
-from mvp.utils.hydra_utils import omegaconf_to_dict, print_dict, dump_cfg
-from mvp.utils.hydra_utils import set_np_formatting, set_seed
-from mvp.utils.hydra_utils import parse_sim_params, parse_task
-from mvp.utils.hydra_utils import process_ppo
+from mvp.utils.hydra_utils import (
+    dump_cfg,
+    omegaconf_to_dict,
+    parse_sim_params,
+    parse_task,
+    print_dict,
+    process_ppo,
+    set_np_formatting,
+    set_seed,
+)
 
 
 @hydra.main(config_name="config", config_path="../configs/ppo")
@@ -37,8 +45,11 @@ def train(cfg: omegaconf.DictConfig):
 
     # Perform training
     ppo = process_ppo(env, cfg, cfg_dict, cfg.logdir, cfg.cptdir)
-    ppo.run(num_learning_iterations=cfg.train.learn.max_iterations, log_interval=cfg.train.learn.save_interval)
+    ppo.run(
+        num_learning_iterations=cfg.train.learn.max_iterations,
+        log_interval=cfg.train.learn.save_interval,
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     train()
